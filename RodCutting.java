@@ -5,13 +5,60 @@ public class RodCutting {
 
   // Do not change the parameters!
   public int rodCuttingRecur(int rodLength, int[] lengthPrices) {
-    return 0;
-  }
+	  if (rodLength <= 0)
+		  return 0;
+
+	  int max_val = Integer.MIN_VALUE;
+
+	  for (int i = 0; i<rodLength; i++)
+	            max_val = Math.max(max_val, lengthPrices[i] + rodCuttingRecur(rodLength-i-1, lengthPrices));
+
+	        return max_val;
+	    }
+
+  public int rodCuttingRecurMemo(int rodLength , int[] lengthPrices , int[] r) {
+	int q;
+
+	if (r[rodLength] >= 0)
+		return r[rodLength];
+
+	if (rodLength == 0)
+		q = 0;
+	else {
+		q = Integer.MAX_VALUE;
+		for (int i = 1; i <= rodLength; i++) {
+			q = Math.max(q, lengthPrices[i]+ rodCuttingRecurMemo(rodLength-1, lengthPrices , r));
+		}
+		r[rodLength] = q;
+	}
+		return q;
+}
+
+
+
+
+
+
 
   // Do not change the parameters!
   public int rodCuttingBottomUp(int rodLength, int[] lengthPrices) {
-    return 0;
-  }
+
+       int value[] = new int[rodLength+1];
+       value[0] = 0;
+
+
+       for (int i = 1; i<=rodLength; i++)
+       {
+           int max_value = Integer.MIN_VALUE;
+           for (int j = 0; j < i; j++)
+               max_value = Math.max(max_value,
+                                  lengthPrices[j] + value[i-j-1]);
+           value[i] = max_value;
+       }
+
+       return value[rodLength];
+
+ }
 
 
   public static void main(String args[]){
